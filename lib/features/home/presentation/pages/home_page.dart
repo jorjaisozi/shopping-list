@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_list/features/home/data/product.dart';
+import 'package:shopping_list/features/home/presentation/widgets/product_list_view_custom.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -34,12 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             )
-          : Center(
-              child: Text(
-                _products.last.name,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ),
+          : ProductListViewCustom(products: _products),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             _addProduct(Product(name: 'Product ${_products.length + 1}')),
