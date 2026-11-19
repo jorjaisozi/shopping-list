@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_list/features/home/data/product.dart';
+import 'package:shopping_list/features/home/presentation/widgets/add_product_dialog_custom.dart';
 import 'package:shopping_list/features/home/presentation/widgets/product_list_view_custom.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -27,6 +28,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _showAddProductDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AddProductDialogCustom(addProduct: _addProduct);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
               deleteProduct: _deleteProduct,
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            _addProduct(Product(name: 'Product ${_products.length + 1}')),
+        onPressed: () => _showAddProductDialog(context),
         tooltip: 'Add product',
         child: const Icon(Icons.add),
       ),
