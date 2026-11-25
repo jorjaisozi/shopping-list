@@ -16,6 +16,7 @@ class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
   final _formKey = GlobalKey<FormState>();
   final _productNameController = TextEditingController();
   final _productPriceController = TextEditingController();
+  var _category = 'Others';
 
   @override
   void dispose() {
@@ -67,6 +68,29 @@ class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
                 return null;
               },
             ),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<String>(
+              initialValue: _category,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'String',
+              ),
+              items: categories.map((category) {
+                return DropdownMenuItem<String>(
+                  value: category,
+                  child: Text(category),
+                );
+              }).toList(),
+              onChanged: (value) {
+                _category = value!;
+              },
+              validator: (value) {
+                if (value == null) {
+                  return 'Please select a _category';
+                }
+                return null;
+              },
+            ),
           ],
         ),
       ),
@@ -80,6 +104,7 @@ class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
                   name: _productNameController.text.trim(),
                   price: (double.tryParse(_productPriceController.text)! * 100)
                       .round(),
+                  category: _category,
                 ),
               );
               Navigator.of(context).pop();
