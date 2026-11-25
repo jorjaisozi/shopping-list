@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:shopping_list/features/home/data/models/product.dart';
 
@@ -14,6 +15,7 @@ class AddProductDialogCustom extends StatefulWidget {
 class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
   final _formKey = GlobalKey<FormState>();
   final _productNameController = TextEditingController();
+  final _productPriceController = TextEditingController();
 
   @override
   void dispose() {
@@ -43,6 +45,27 @@ class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
                 return null;
               },
             ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _productPriceController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter the product price',
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+              ],
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'The product price is required';
+                }
+                if (double.tryParse(value)! < 0) {
+                  return 'Enter a valid price';
+                }
+                return null;
+              },
+            ),
           ],
         ),
       ),
@@ -52,7 +75,11 @@ class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               widget.addProduct(
-                Product(name: _productNameController.text.trim()),
+                Product(
+                  name: _productNameController.text.trim(),
+                  price: (double.tryParse(_productPriceController.text)! * 100)
+                      .round(),
+                ),
               );
               Navigator.of(context).pop();
             }
