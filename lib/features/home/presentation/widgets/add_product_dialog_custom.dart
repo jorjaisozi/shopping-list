@@ -33,6 +33,7 @@ class _AddProductDialogCustomState extends State<AddProductDialogCustom> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
+              autofocus: true,
               controller: _productNameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
