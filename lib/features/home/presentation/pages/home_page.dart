@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:shopping_list/features/home/data/models/product.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -10,11 +12,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final List<Product> _products = [];
 
-  void _incrementCounter() {
+  void _addProduct(Product product) {
     setState(() {
-      _counter++;
+      _products.add(product);
     });
   }
 
@@ -25,21 +27,23 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      body: _products.isEmpty
+          ? Center(
+              child: Text(
+                'No products yet',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            )
+          : Center(
+              child: Text(
+                _products.last.name,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
             ),
-          ],
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () =>
+            _addProduct(Product(name: 'Product ${_products.length + 1}')),
+        tooltip: 'Add product',
         child: const Icon(Icons.add),
       ),
     );
