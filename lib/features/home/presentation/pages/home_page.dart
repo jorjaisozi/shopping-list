@@ -21,6 +21,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _deleteProduct(int index) {
+    setState(() {
+      _products.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             )
-          : ProductListViewCustom(products: _products),
+          : ProductListViewCustom(
+              products: _products,
+              deleteProduct: _deleteProduct,
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             _addProduct(Product(name: 'Product ${_products.length + 1}')),

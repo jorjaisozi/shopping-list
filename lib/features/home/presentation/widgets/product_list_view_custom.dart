@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:shopping_list/features/home/data/models/product.dart';
 
 class ProductListViewCustom extends StatelessWidget {
-  const ProductListViewCustom({super.key, required this.products});
+  const ProductListViewCustom({
+    super.key,
+    required this.products,
+    required this.deleteProduct,
+  });
+
   final List<Product> products;
+  final void Function(int index) deleteProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,13 @@ class ProductListViewCustom extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (BuildContext context, int index) {
         Product product = products[index];
-        return ListTile(title: Text(product.name));
+        return ListTile(
+          title: Text(product.name),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => deleteProduct(index),
+          ),
+        );
       },
     );
   }
